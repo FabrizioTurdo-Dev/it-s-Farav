@@ -1,0 +1,336 @@
+:root {
+    --techno-red: #D10000;
+    --dark-pitch: #050505;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--dark-pitch);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    overflow-y: auto; 
+    overflow-x: hidden;
+}
+
+/* Efecto de grano industrial */
+.noise {
+    position: fixed;
+    inset: 0;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.05;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* EL HERO: Aquí se maneja la imagen de fondo correctamente */
+.hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url('./assets/violeee.png') no-repeat center 45% / cover;
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 5;
+}
+
+.status {
+    color: var(--techno-red);
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.logo {
+    font-family: 'Syncopate', sans-serif;
+    font-size: clamp(3rem, 15vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    text-shadow: 0 0 20px rgba(209, 0, 0, 0.5);
+}
+
+.tagline {
+    color: #888;
+    margin-top: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    font-style: italic;
+}
+
+.btn {
+    display: inline-block;
+    margin-top: 3rem;
+    padding: 1rem 2.5rem;
+    border: 1px solid var(--techno-red);
+    color: white;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    transition: 0.3s ease;
+    box-shadow: 0 0 15px rgba(209, 0, 0, 0.2);
+}
+
+.btn:hover {
+    background: var(--techno-red);
+    box-shadow: 0 0 30px rgba(209, 0, 0, 0.5);
+}
+
+/* Decoración UI */
+.ui-corner {
+    position: absolute;
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 0.2em;
+}
+
+.top-left {
+    top: 2rem;
+    left: 2rem;
+}
+
+.bottom-right {
+    bottom: 2rem;
+    right: 2rem;
+}
+.tracks-section {
+    padding: 100px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-family: 'Syncopate', sans-serif;
+    color: var(--techno-red);
+    font-size: 1.5rem;
+    margin-bottom: 3rem;
+    letter-spacing: 0.3em;
+    border-left: 4px solid var(--techno-red);
+    padding-left: 20px;
+}
+
+.tracks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.track-card {
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    backdrop-filter: blur(8px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+.track-card:hover {
+    border-color: var(--techno-red);
+    transform: translateY(-10px);
+    background: rgba(209, 0, 0, 0.05);
+    box-shadow: 0 10px 30px rgba(209, 0, 0, 0.2);
+}
+
+.track-number {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 0.1);
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.track-card h3 {
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 5px;
+}
+
+.track-card p {
+    font-size: 10px;
+    color: #666;
+    letter-spacing: 0.1em;
+}
+
+.play-btn {
+    margin-top: 20px;
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+    padding: 10px 20px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.play-btn:hover {
+    background: white;
+    color: black;
+}
+
+/* Efecto de línea roja que "escanea" la tarjeta */
+.card-glitch {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: var(--techno-red);
+    box-shadow: 0 0 10px var(--techno-red);
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.track-card:hover .card-glitch {
+    animation: scan 1.5s infinite;
+    opacity: 1;
+}
+
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--techno-red);
+    color: var(--techno-red);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    transition: all 0.4s ease;
+    box-shadow: 0 0 20px rgba(209, 0, 0, 0.2);
+}
+
+.whatsapp-float:hover {
+    background: var(--techno-red);
+    color: white;
+    box-shadow: 0 0 40px rgba(209, 0, 0, 0.6);
+    transform: translateY(-5px);
+}
+
+.whatsapp-float svg {
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-float:hover svg {
+    transform: rotate(15deg) scale(1.2);
+}
+
+/* Ocultar texto en móviles muy pequeños para que no estorbe */
+@media (max-width: 480px) {
+    .whatsapp-float span {
+        display: none;
+    }
+    .whatsapp-float {
+        padding: 15px;
+        border-radius: 50%;
+    }
+}
+
+.bio-section {
+    padding: 100px 5%;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.bio-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Layout de dos columnas */
+    gap: 50px;
+}
+
+.bio-line {
+    width: 100%;
+    height: 1px;
+    background: var(--techno-red);
+    margin-top: 20px;
+    box-shadow: 0 0 10px var(--techno-red);
+}
+
+.bio-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.highlight {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: 900;
+    line-height: 1.3;
+    border-left: 2px solid var(--techno-red);
+    padding-left: 20px;
+}
+
+.bio-text {
+    font-size: 1rem;
+    color: #888;
+    line-height: 1.8;
+    column-count: 1; /* Puedes poner 2 si quieres estilo revista */
+}
+
+.bio-text p {
+    margin-bottom: 20px;
+}
+
+.final-statement {
+    color: white;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    padding: 20px;
+    background: rgba(209, 0, 0, 0.05);
+    border: 1px dashed var(--techno-red);
+}
+
+/* Responsive para celular */
+@media (max-width: 768px) {
+    .bio-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .highlight {
+        font-size: 1.2rem;
+    }
+}
+
+.prueba{
+    width: 100%;
+    margin-top: 5rem;
+
+}

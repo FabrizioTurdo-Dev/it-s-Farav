@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FARAV | Electronic Artist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="noise"></div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p class="status">Artist Core System v1.0</p>
+            <h1 class="logo">FARAV</h1>
+            <p class="tagline">“DANCE IN THE CHAOS”</p>
+            <a href="#tracks" class="btn">Descubri mi sonido</a>
+            <a href="#presskit" class="btn">Mi PressKit</a>
+            <a href="https://www.instagram.com/its_farav/" target="_blank" class="btn">Descubri mi instagram</a>
+
+        </div>
+
+        <div class="ui-corner top-left font-mono">FREQ_HIGH</div>
+        <div class="ui-corner bottom-right font-mono">©2026_FARAV</div>
+
+    </section>
+    <section class="tracks-section" id="tracks">
+        <h2 class="section-title">AUDIO_FILES [DECODING]</h2>
+        <div class="tracks-grid">
+            <div class="track-card">
+                <div class="track-info">
+                    <span class="track-number">01</span>
+                    <div>
+                        <h3>CHAOS_THEORY</h3>
+                        <p>HARD TECHNO / 145 BPM</p>
+                    </div>
+                </div>
+                <div class="track-actions">
+                    <button class="play-btn" onclick="showPlayer('track1')">PREVIEW</button>
+                </div>
+                <div class="card-glitch"></div>
+            </div>
+
+            <div class="track-card">
+                <div class="track-info">
+                    <span class="track-number">02</span>
+                    <div>
+                        <h3>INDUSTRIAL_MIND</h3>
+                        <p>INDUSTRIAL / 142 BPM</p>
+                    </div>
+                </div>
+                <div class="track-actions">
+                    <button class="play-btn" onclick="showPlayer('track2')">PREVIEW</button>
+                </div>
+                <div class="card-glitch"></div>
+            </div>
+        </div>
+    </section>
+    <section class="bio-section" id="presskit">
+        <div class="bio-container">
+            <div class="bio-header">
+                <h2 class="section-title">CONCEPT_DATA</h2>
+                <div class="bio-line"></div>
+
+                <div class="image-container-red">
+                    <img src="./assets/sobre-mi.JPG" alt="Farav Artist" class="prueba">
+                </div>
+            </div>
+
+            <div class="bio-content">
+                <p class="highlight">
+                    FARAV es una DJ que entiende la pista como un espacio de libertad, descarga y conexión colectiva.
+                </p>
+
+                <div class="bio-text">
+                    <p>Cada set está pensado para que la gente se suelte, se conecte con su cuerpo y libere energía a
+                        través del baile, sin reglas ni formas correctas de moverse. El objetivo es claro: que quien
+                        esté en la pista se sienta libre y se vaya con la sensación de haberlo dado todo.</p>
+
+                    <p>La propuesta se apoya en kicks sólidos y limpios, ritmo directo y un trabajo de tensión que nunca
+                        queda a medias. La expectativa siempre se resuelve: cada drop llega con peso, claridad e
+                        impacto, permitiendo una descarga real y manteniendo la continuidad del set.</p>
+
+                    <p>Las bajadas no cortan el movimiento, lo transforman. Funcionan como momentos donde el cuerpo
+                        respira, cambia la forma de bailar y vuelve a cargar energía sin perder la conexión con la
+                        música ni con la pista.</p>
+
+                    <p>La relación con el público es central. Desde la cabina, FARAV baila, lidera y empuja la energía,
+                        pero siempre como parte del grupo. No hay distancia ni pose: la pista responde porque se siente
+                        acompañada, guiada y libre de expresarse como quiera.</p>
+
+                    <p class="final-statement">El resultado es una experiencia intensa, bailable y cercana, donde la
+                        gente se suelta, devuelve energía y baila hasta descargar todo lo que traía en el cuerpo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <a href="https://wa.me/5491140681653?text=Hola%20Farav,%20vengo%20de%20tu%20web.%20Me%20gustaría%20consultar%20disponibilidad%20para%20un%20booking%20/%20colaboración."
+        class="whatsapp-float" target="_blank">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path
+                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.308.159.386.542 1.32.588 1.412.046.092.076.2.013.33-.063.129-.094.209-.188.319-.094.109-.197.245-.28.329-.094.094-.191.196-.081.385.111.19.493.813 1.06 1.312.73.644 1.344.844 1.531.935.188.092.299.076.408-.05.108-.126.463-.539.585-.723.123-.185.245-.156.411-.095.166.062 1.052.496 1.235.588s.306.138.35.214c.044.076.044.439-.1.844z" />
+        </svg>
+        <span>SEND_MESSAGE</span>
+    </a>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
