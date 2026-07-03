@@ -1,0 +1,51 @@
+/* ========================================
+   ANIMATIONS — GSAP-driven classes
+   ======================================== */
+
+/* Initial states (before GSAP animates them) */
+[data-animate] {
+  will-change: transform, opacity;
+}
+
+/* Fade up — elements start below and invisible */
+.anim-fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* Logo reveal — starts huge and transparent */
+.anim-logo-reveal {
+  opacity: 0;
+  transform: scale(1.3);
+  filter: blur(10px);
+}
+
+/* Line expand — width from 0 */
+.anim-line-expand {
+  transform: scaleX(0);
+}
+
+/* Card emerge — from below with slight rotation */
+.anim-card-emerge {
+  opacity: 0;
+  transform: translateY(80px) rotateX(5deg);
+}
+
+/* Media reveal — scale from center */
+.anim-media-reveal {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* Contact reveal — from blur */
+.anim-contact-reveal {
+  opacity: 0;
+  filter: blur(20px);
+  transform: translateY(30px);
+}
+
+/* Stagger children helper */
+.anim-stagger-up > * {
+  opacity: 0;
+  transform: translateY(30px);
+}
