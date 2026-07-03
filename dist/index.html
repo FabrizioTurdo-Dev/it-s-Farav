@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FARAV | Electronic Artist</title>
+  <link rel="icon" type="image/svg+xml" href="/it-s-Farav/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Syncopate:wght@400;700&display=swap"
+    rel="stylesheet">
+  <script type="module" crossorigin src="/it-s-Farav/src/main-yISPG8Px.js"></script>
+  <link rel="modulepreload" crossorigin href="/it-s-Farav/src/base-DVuDfK59.js">
+  <link rel="modulepreload" crossorigin href="/it-s-Farav/src/Beacon-DYBtqlTj.js">
+  <link rel="modulepreload" crossorigin href="/it-s-Farav/src/gsap-CPftR9rx.js">
+  <link rel="modulepreload" crossorigin href="/it-s-Farav/src/ScrollTrigger-DUogrCyx.js">
+  <link rel="stylesheet" crossorigin href="/it-s-Farav/src/base-KH_9xaiG.css">
+  <link rel="stylesheet" crossorigin href="/it-s-Farav/src/main-DYOu2jzy.css">
+  <link rel="stylesheet" crossorigin href="/it-s-Farav/src/gallery-DvLq5DCG.css">
+</head>
+
+<body>
+  <!-- Three.js Canvas — full screen background -->
+  <canvas id="beacon-canvas"></canvas>
+
+  <!-- Film grain overlay -->
+  <div class="noise"></div>
+
+  <!-- Preloader — overlays the Three.js canvas -->
+  <div id="preloader">
+    <div class="preloader-center">
+      <span class="preloader-text">FARAV</span>
+      <div class="preloader-bar">
+        <div class="preloader-bar-fill"></div>
+      </div>
+      <span class="preloader-status">INITIALIZING</span>
+    </div>
+  </div>
+
+  <!-- Cursor follower -->
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <!-- Fixed WhatsApp CTA — always visible -->
+  <!-- <a href="https://wa.me/5491140681653?text=Hola%20Farav,%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20consultar%20disponibilidad%20para%20un%20booking%20/%20colaboraci%C3%B3n."
+    class="whatsapp-fixed" target="_blank" id="whatsapp-fixed">
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path
+        d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.308.159.386.542 1.32.588 1.412.046.092.076.2.013.33-.063.129-.094.209-.188.319-.094.109-.197.245-.28.329-.094.094-.191.196-.081.385.111.19.493.813 1.06 1.312.73.644 1.344.844 1.531.935.188.092.299.076.408-.05.108-.126.463-.539.585-.723.123-.185.245-.156.411-.095.166.062 1.052.496 1.235.588s.306.138.35.214c.044.076.044.439-.1.844z" />
+    </svg>
+    <span>SEND_MESSAGE</span>
+  </a> -->
+
+  <!-- Main scroll container -->
+  <main id="smooth-wrapper">
+
+    <!-- ESCENA 1: HERO — Oscuridad + Logo gigante -->
+    <section class="scene scene-hero" data-scene="1">
+      <div class="scene-inner">
+        <div class="hero-ui-top">
+          <span class="ui-label">FREQ_HIGH</span>
+          <span class="ui-label">SYSTEM v2.0</span>
+        </div>
+
+        <div class="hero-center">
+          <p class="hero-status" data-animate="fade-up">Artist Core System v2.0</p>
+          <h1 class="hero-logo" data-animate="logo-reveal">FARAV</h1>
+          <p class="hero-tagline" data-animate="fade-up-delay">"DANCE IN THE CHAOS"</p>
+        </div>
+
+        <div class="hero-nav" data-animate="stagger-up">
+          <a href="#presskit" class="nav-link" data-text="CONCEPT">CONCEPT</a>
+          <span class="nav-divider">/</span>
+          <a href="manifiesto.html" target="_blank" class="nav-link" data-text="MANIFESTO">MANIFESTO</a>
+          <span class="nav-divider">/</span>
+          <a href="gallery.html" target="_blank" class="nav-link" data-text="GALLERY">GALLERY</a>
+          <span class="nav-divider">/</span>
+          <a href="https://www.instagram.com/its_farav/" target="_blank" class="nav-link"
+            data-text="INSTAGRAM">INSTAGRAM</a>
+        </div>
+
+        <div class="hero-ui-bottom">
+          <span class="ui-label">©2026_FARAV</span>
+          <span class="ui-label scroll-indicator">SCROLL ↓</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESCENA 2: TRACKS — Tarjetas emergiendo desde la oscuridad -->
+    <!-- <section class="scene scene-tracks" id="tracks" data-scene="2">
+      <div class="scene-inner">
+        <div class="tracks-header">
+          <h2 class="section-title" data-animate="line-reveal">AUDIO_FILES</h2>
+          <p class="section-subtitle" data-animate="fade-up">[DECODING]</p>
+        </div>
+
+        <div class="tracks-grid">
+          <article class="track-card" data-animate="card-emerge" data-index="0">
+            <div class="card-glow"></div>
+            <div class="card-content">
+              <span class="track-number">01</span>
+              <div class="track-info">
+                <h3 class="track-title">CHAOS_THEORY</h3>
+                <p class="track-meta">HARD TECHNO / 145 BPM</p>
+              </div>
+              <div class="track-actions">
+                <button class="play-btn">PREVIEW</button>
+              </div>
+            </div>
+            <div class="card-scan"></div>
+            <div class="card-border"></div>
+          </article>
+
+          <article class="track-card" data-animate="card-emerge" data-index="1">
+            <div class="card-glow"></div>
+            <div class="card-content">
+              <span class="track-number">02</span>
+              <div class="track-info">
+                <h3 class="track-title">INDUSTRIAL_MIND</h3>
+                <p class="track-meta">INDUSTRIAL / 142 BPM</p>
+              </div>
+            </div>
+            <div class="card-scan"></div>
+            <div class="card-border"></div>
+          </article>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- ESCENA 3: BIO — Video + Biografía cinematográfica -->
+    <section class="scene scene-bio" id="presskit" data-scene="3">
+      <div class="scene-inner">
+        <div class="bio-grid">
+          <!-- Video -->
+          <div class="bio-quad bio-media" data-animate="media-reveal">
+            <div class="video-frame">
+              <video id="videoFarav" autoplay muted loop playsinline>
+                <source src="https://res.cloudinary.com/dfrlp8drp/video/upload/f_auto,q_auto/farav_z5azr1"
+                  type="video/mp4">
+              </video>
+              <div class="video-overlay"></div>
+              <div class="video-border"></div>
+            </div>
+          </div>
+
+          <!-- ¿Por qué FARAV? -->
+          <div class="bio-quad bio-intro">
+
+              <h2 class="section-title" data-animate="line-reveal">WHY FARAV?</h2>
+            <div class="bio-line" data-animate="line-expand"></div>
+            <p class="bio-highlight" data-animate="fade-up">
+              FARAV nace inspirado en aquello que representa un Faro: una presencia que permanece encendida incluso
+              cuando todo alrededor parece incierto. No elimina la tormenta ni cambia el rumbo del mar, Simplemente
+              permanece ahí, recordándonos que siempre existe un lugar al que volver.</p>
+            <p class="bio-highlight" data-animate="fade-up">
+              La vida nunca deja de ser caótica. Siempre habrá incertidumbre, cambios y momentos de tension. El caos no
+              es algo de lo que podamos escapar; forma parte de quienes somos y del camino que recorremos.
+              FARAV nace de la convicción de que la música puede convertirse en ese Faro. Un espacio donde el caos no
+              desaparece, pero deja de sentirse como un peso. Donde el cuerpo encuentra movimiento, la mente descansa
+              por un momento y la energía se transforma a través del baile.
+              Porque Bailar no significa escapar del caos.<br>
+              Significa encontrar una forma de habitarlo.
+            </p>
+            <p class="bio-highlight" data-animate="fade-up">Por unas horas, la pista se convierte en ese lugar donde la
+              música acompaña, la comunidad sostiene y el
+              movimiento nos recuerda que, incluso en medio del caos, todavía podemos sentirnos libres.
+              Porque, a veces, no necesitamos que el caos desaparezca.
+              Solo encontrar un lugar donde aprender a bailarlo.
+              DANCE IN THE CHAOS.
+            </p>
+          </div>
+
+          <!-- ENERGÍA -->
+          <div class="bio-quad bio-col-content final-statement">
+            <h2 class="section-title" data-animate="line-reveal">ENERGÍA</h2>
+            <p>La música de FARAV nace del encuentro entre dos energías que conviven en la pista: el groove, la
+              versatilidad y el carácter festivo del Tech House, junto con la intensidad física y emocional del Techno
+              contemporáneo.<br>
+              El Tech House aporta juego, movimiento y una energía que invita a compartir la pista. El Techno suma
+              profundidad, tensión e intensidad, convirtiendo ese movimiento en una verdadera descarga física y
+              emocional. Juntos construyen un recorrido donde bailar también significa liberar, conectar y disfrutar.</p>
+            <p>Cada set se construye sobre kicks sólidos, grooves marcados y una energía progresiva que mantiene el
+              movimiento constante de principio a fin. Las mezclas priorizan la continuidad por encima del impacto
+              inmediato, permitiendo que cada subida encuentre su resolución y que cada drop llegue con claridad,
+              peso y el espacio necesario para que el cuerpo responda de manera natural.<br/>
+              Las pausas no detienen el viaje; lo transforman. Son momentos donde el cuerpo respira, cambia la forma
+              de moverse y recupera energía antes de volver a impulsarse, sin perder nunca la conexión con la música
+              ni con la pista.</p>
+            <p>Aunque la música se seleccione desde una cabina, FARAV sigue construyendo cada set desde la mirada
+              de quien nunca dejó de ser Raver. La cabina no representa una distancia con la pista, sino otra forma de
+              habitarla. La energía no viaja en una sola dirección: nace del intercambio constante entre quien guía la
+              música y quienes la viven.<br/>
+              Al terminar la noche, lo importante no es recordar cada track.
+              Es volver a casa sintiendo que el cuerpo habló, la mente descansó y, por unas horas, el caos encontró
+              movimiento.</p>
+          </div>
+
+          <!-- DE LA PISTA A LA CABINA -->
+          <div class="bio-quad bio-col-content final-statement">
+            <h2 class="section-title" data-animate="line-reveal">DE LA PISTA A LA CABINA</h2>
+            <p>La historia de FARAV comenzó mucho antes de la primera cabina.<br>
+              Desde 2021, la cultura Rave se convirtió en su espacio de libertad, comunidad y expresión. Fue allí
+              donde descubrió una forma distinta de vivir la música y comprendió el impacto que una pista puede tener
+              en la vida de las personas. Esa experiencia despertó el deseo de construir un proyecto capaz de
+              generar la misma sensación en quienes estuvieran del otro lado.</p>
+            <p>Con esa intención comenzó un proceso de formación en espacios como Fungi,
+              Mixtape y Defenestre, donde fue desarrollando las herramientas técnicas que, con el tiempo, dieron lugar
+              a una identidad artística propia.<br>
+              La primera presentación pública llegó en septiembre de 2025, marcando el comienzo de un recorrido que
+              rápidamente abrió nuevas oportunidades para presentarse en distintos espacios de Buenos Aires.<br>
+              Desde entonces, FARAV ha participado en eventos y ciclos organizados por productoras como The Eye
+              Productions, Pulse, SweetBPM, entre otras, presentándose en espacios como La Biblioteca, Groove
+              Palermo, Misión y mas clubes, asi tambien compartiendo cabina con Anunnakis Tiefstone, DuoDisco y JP
+              Sgalia.<br>
+              En 2026 dio un paso más en el desarrollo de su proyecto con la creación de CHROMA, una rave
+              independiente que reunió Techno, Beatbox y arte en un mismo espacio, celebrando la diversidad de
+              sonidos, disciplinas y personas que forman parte de la cultura electrónica.</p>
+            <p>
+              Actualmente, FARAV continúa desarrollando su identidad artística y profundizando sus estudios en
+              producción musical, mientras sigue construyendo una propuesta donde la energía de la pista, la
+              comunidad y la libertad de expresión permanecen en el centro de cada experiencia.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESCENA 4: CONTACTO — La luz apunta al visitante -->
+    <section class="scene scene-contact" data-scene="4">
+      <div class="scene-inner">
+        <div class="contact-content" data-animate="contact-reveal">
+          <h2 class="contact-title">LET'S CONNECT</h2>
+          <p class="contact-subtitle">Booking / Colaboración / Press</p>
+
+          <a href="https://wa.me/5491140681653?text=Hola%20Farav,%20vengo%20de%20tu%20web.%20Me%20gustar%C3%ADa%20consultar%20disponibilidad%20para%20un%20booking%20/%20colaboraci%C3%B3n."
+            class="whatsapp-cta" target="_blank">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path
+                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.109.004.258-.041.404.308.159.386.542 1.32.588 1.412.046.092.076.2.013.33-.063.129-.094.209-.188.319-.094.109-.197.245-.28.329-.094.094-.191.196-.081.385.111.19.493.813 1.06 1.312.73.644 1.344.844 1.531.935.188.092.299.076.408-.05.108-.126.463-.539.585-.723.123-.185.245-.156.411-.095.166.062 1.052.496 1.235.588s.306.138.35.214c.044.076.044.439-.1.844z" />
+            </svg>
+            <span>SEND_MESSAGE</span>
+          </a>
+        </div>
+
+        <div class="contact-footer">
+          <span class="ui-label">©2026_FARAV</span>
+          <span class="ui-label">ALL RIGHTS RESERVED</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+
+</html>
