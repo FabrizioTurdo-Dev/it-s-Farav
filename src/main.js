@@ -18,32 +18,25 @@ class FARAV {
 
   async _init() {
     try {
-      // 1. Three.js starts IMMEDIATELY — canvas = preloader background
-      this.scene = new Scene();
+      this.scene = new Scene(this.tier);
       this.preloader.updateProgress(10);
 
-      // 2. Beacon (the rotating red light) — visible from the start
-      this.beacon = new Beacon(this.scene.scene);
+      this.beacon = new Beacon(this.scene.scene, this.tier);
       this.preloader.updateProgress(25);
 
-      // 3. Fog — atmospheric background
-      this.fog = new Fog(this.scene.scene);
+      this.fog = new Fog(this.scene.scene, this.tier);
       this.preloader.updateProgress(40);
 
-      // 4. Start render loop — faro is now spinning behind the preloader
       this.scene.start();
       this.preloader.updateProgress(55);
 
-      // 5. Particles
-      this.particles = new Particles(this.scene.scene);
+      this.particles = new Particles(this.scene.scene, this.tier);
       this.preloader.updateProgress(75);
 
-      // 6. Device optimization
       if (this.tier !== 'high') {
         this._optimizeForDevice();
       }
 
-      // 7. Register update loop
       this.scene.onUpdate((elapsed, delta, mouse) => {
         const scrollProgress = this.scrollManager
           ? this.scrollManager.getScrollProgress()
@@ -56,14 +49,11 @@ class FARAV {
 
       this.preloader.updateProgress(90);
 
-      // 8. Init GSAP
       this._initGSAP();
       this.preloader.updateProgress(100);
 
-      // 9. Hide preloader — canvas stays, HTML fades out
       await this.preloader.hide();
 
-      // 10. Init interactions
       this.textEffects = new TextEffects();
       this.cardEffects = new CardEffects();
       this._initWhatsApp();
@@ -111,7 +101,6 @@ class FARAV {
   }
 }
 
-// Boot
 document.addEventListener('DOMContentLoaded', () => {
   new FARAV();
 });

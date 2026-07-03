@@ -11,7 +11,6 @@ export class ScrollManager {
 
     this._setupScrollTracking();
     this._animateHero();
-    this._animateTracks();
     this._animateBio();
     this._animateContact();
   }
@@ -120,50 +119,6 @@ export class ScrollManager {
       { opacity: 0 },
       { opacity: 1, duration: 1, ease: 'power2.out', immediateRender: false },
     '-=0.3');
-  }
-
-  _animateTracks() {
-    // Section title
-    gsap.from('.scene-tracks .section-title', {
-      scrollTrigger: {
-        trigger: '.scene-tracks',
-        start: 'top 80%',
-        end: 'top 40%',
-        scrub: 1,
-      },
-      opacity: 0,
-      x: -50,
-      duration: 1,
-    });
-
-    gsap.from('.scene-tracks .section-subtitle', {
-      scrollTrigger: {
-        trigger: '.scene-tracks',
-        start: 'top 75%',
-        end: 'top 45%',
-        scrub: 1,
-      },
-      opacity: 0,
-      y: 20,
-      duration: 1,
-    });
-
-    // Track cards emerge from darkness
-    gsap.utils.toArray('.track-card').forEach((card, i) => {
-      gsap.from(card, {
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 85%',
-          end: 'top 50%',
-          scrub: 1,
-        },
-        opacity: 0,
-        y: 80,
-        rotateX: 8,
-        duration: 1,
-        delay: i * 0.15,
-      });
-    });
   }
 
   _animateBio() {

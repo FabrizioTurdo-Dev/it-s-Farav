@@ -1,16 +1,21 @@
 import * as THREE from 'three';
 
 export class Scene {
-  constructor() {
+  constructor(tier = 'high') {
+    this.tier = tier;
     this.canvas = document.getElementById('beacon-canvas');
+
+    const isLow = tier !== 'high';
+
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: true,
+      antialias: !isLow,
       alpha: false,
-      powerPreference: 'high-performance',
+      powerPreference: isLow ? 'low-power' : 'high-performance',
     });
 
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    const pixelRatio = isLow ? 1 : Math.min(window.devicePixelRatio, 2);
+    this.renderer.setPixelRatio(pixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 0.8;
@@ -18,7 +23,10 @@ export class Scene {
 
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x050505);
-    this.scene.fog = new THREE.FogExp2(0x050505, 0.015);
+
+    if (!isLow) {
+      this.scene.fog = new THREE.FogExp2(0x050505, 0.015);
+    }
 
     this.camera = new THREE.PerspectiveCamera(
       60,
@@ -71,21 +79,17 @@ export class Scene {
     const delta = this.clock.getDelta();
     const elapsed = this.clock.getElapsedTime();
 
-    // Smooth mouse interpolation
     this.mouse.x += (this.mouse.targetX - this.mouse.x) * 0.05;
     this.mouse.y += (this.mouse.targetY - this.mouse.y) * 0.05;
 
-    // Update camera subtly based on mouse
     this.camera.position.x = this.mouse.x * 2;
     this.camera.position.y = this.mouse.y * 1;
     this.camera.lookAt(0, 0, 0);
 
-    // Run all registered update callbacks
     for (const cb of this.callbacks) {
       cb(elapsed, delta, this.mouse);
     }
 
-    // Update animation mixers
     for (const mixer of this.mixers) {
       mixer.update(delta);
     }

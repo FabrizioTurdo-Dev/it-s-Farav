@@ -1,17 +1,20 @@
 import * as THREE from 'three';
 
-const fogVertexShader = `
-  varying vec2 vUv;
-  varying vec3 vWorldPosition;
-  void main() {
-    vUv = uv;
-    vec4 worldPos = modelMatrix * vec4(position, 1.0);
-    vWorldPosition = worldPos.xyz;
-    gl_Position = projectionMatrix * viewMatrix * worldPos;
-  }
-`;
+function generateFogShader(octaves) {
+  const fbmLoop = `
+  float fbm(vec3 p) {
+    float value = 0.0;
+    float amplitude = 0.5;
+    float frequency = 1.0;
+    for (int i = 0; i < ${octaves}; i++) {
+      value += amplitude * snoise(p * frequency);
+      amplitude *= 0.5;
+      frequency *= 2.0;
+    }
+    return value;
+  }`;
 
-const fogFragmentShader = `
+  return `
   uniform float uTime;
   uniform float uIntensity;
   uniform vec2 uMouse;
@@ -19,7 +22,6 @@ const fogFragmentShader = `
   varying vec2 vUv;
   varying vec3 vWorldPosition;
 
-  // Simplex noise functions
   vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -68,66 +70,58 @@ const fogFragmentShader = `
     return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
   }
 
-  float fbm(vec3 p) {
-    float value = 0.0;
-    float amplitude = 0.5;
-    float frequency = 1.0;
-    for (int i = 0; i < 5; i++) {
-      value += amplitude * snoise(p * frequency);
-      amplitude *= 0.5;
-      frequency *= 2.0;
-    }
-    return value;
-  }
+  ${fbmLoop}
 
   void main() {
     vec2 uv = vUv;
-
-    // Multiple layers of fog moving at different speeds
     float slowTime = uTime * 0.03;
     float medTime = uTime * 0.06;
-
     vec3 pos1 = vec3(uv * 3.0, slowTime);
     vec3 pos2 = vec3(uv * 5.0 + 100.0, medTime);
-    vec3 pos3 = vec3(uv * 8.0 + 200.0, slowTime * 1.5);
-
     float fog1 = fbm(pos1) * 0.5 + 0.5;
     float fog2 = fbm(pos2) * 0.5 + 0.5;
-    float fog3 = fbm(pos3) * 0.5 + 0.5;
-
-    float combinedFog = fog1 * 0.5 + fog2 * 0.3 + fog3 * 0.2;
-
-    // Mouse influence — subtle brightening near cursor
+    float combinedFog = fog1 * 0.6 + fog2 * 0.4;
     float mouseDist = length(uv - (uMouse * 0.5 + 0.5));
     float mouseInfluence = smoothstep(0.5, 0.0, mouseDist) * 0.15;
-
-    // Scroll-based intensity shift
     float scrollFade = 1.0 - uScrollProgress * 0.3;
-
-    // Color: dark grays with very subtle red tint
     vec3 fogColor = vec3(0.03, 0.03, 0.035);
     vec3 redTint = vec3(0.08, 0.01, 0.01);
     vec3 finalColor = mix(fogColor, redTint, combinedFog * 0.3 + mouseInfluence);
-
     float alpha = combinedFog * uIntensity * scrollFade * 0.6;
     alpha += mouseInfluence;
-
     gl_FragColor = vec4(finalColor, alpha);
+  }
+`;
+}
+
+const fogVertexShader = `
+  varying vec2 vUv;
+  varying vec3 vWorldPosition;
+  void main() {
+    vUv = uv;
+    vec4 worldPos = modelMatrix * vec4(position, 1.0);
+    vWorldPosition = worldPos.xyz;
+    gl_Position = projectionMatrix * viewMatrix * worldPos;
   }
 `;
 
 export class Fog {
-  constructor(scene) {
+  constructor(scene, tier = 'high') {
     this.scene = scene;
+    this.tier = tier;
+    this.meshes = [];
 
+    const octaves = tier === 'high' ? 5 : tier === 'minimal' ? 1 : 2;
+    const fragmentShader = generateFogShader(octaves);
     const geometry = new THREE.PlaneGeometry(120, 80, 1, 1);
+    const isLow = tier !== 'high';
 
     this.material = new THREE.ShaderMaterial({
       vertexShader: fogVertexShader,
-      fragmentShader: fogFragmentShader,
+      fragmentShader: fragmentShader,
       transparent: true,
       depthWrite: false,
-      side: THREE.DoubleSide,
+      side: isLow ? THREE.FrontSide : THREE.DoubleSide,
       uniforms: {
         uTime: { value: 0 },
         uIntensity: { value: 1.0 },
@@ -140,14 +134,19 @@ export class Fog {
     this.mesh.position.z = -15;
     this.mesh.position.y = 0;
     scene.add(this.mesh);
+    this.meshes.push(this.mesh);
 
-    // Second fog layer — offset and rotated for depth
-    this.mesh2 = this.mesh.clone();
-    this.mesh2.material = this.material.clone();
-    this.mesh2.position.z = -25;
-    this.mesh2.position.y = 5;
-    this.mesh2.rotation.z = 0.3;
-    scene.add(this.mesh2);
+    if (!isLow) {
+      this.mesh2 = this.mesh.clone();
+      this.mesh2.material = this.material.clone();
+      this.mesh2.position.z = -25;
+      this.mesh2.position.y = 5;
+      this.mesh2.rotation.z = 0.3;
+      scene.add(this.mesh2);
+      this.meshes.push(this.mesh2);
+    } else {
+      this.mesh2 = null;
+    }
   }
 
   update(elapsed, delta, mouse, scrollProgress = 0) {
@@ -155,17 +154,22 @@ export class Fog {
     this.material.uniforms.uMouse.value.set(mouse.x, mouse.y);
     this.material.uniforms.uScrollProgress.value = scrollProgress;
 
-    this.mesh2.material.uniforms.uTime.value = elapsed;
-    this.mesh2.material.uniforms.uMouse.value.set(mouse.x, mouse.y);
-    this.mesh2.material.uniforms.uScrollProgress.value = scrollProgress;
+    if (this.mesh2) {
+      this.mesh2.material.uniforms.uTime.value = elapsed;
+      this.mesh2.material.uniforms.uMouse.value.set(mouse.x, mouse.y);
+      this.mesh2.material.uniforms.uScrollProgress.value = scrollProgress;
+    }
 
-    // Extremely slow movement
     this.mesh.position.x = Math.sin(elapsed * 0.01) * 2;
-    this.mesh2.position.x = Math.cos(elapsed * 0.008) * 3;
+    if (this.mesh2) {
+      this.mesh2.position.x = Math.cos(elapsed * 0.008) * 3;
+    }
   }
 
   setIntensity(value) {
     this.material.uniforms.uIntensity.value = value;
-    this.mesh2.material.uniforms.uIntensity.value = value;
+    if (this.mesh2) {
+      this.mesh2.material.uniforms.uIntensity.value = value;
+    }
   }
 }

@@ -1,16 +1,23 @@
 import * as THREE from 'three';
+import { DeviceDetect } from '../utils/DeviceDetect.js';
 
 export class Particles {
-  constructor(scene) {
+  constructor(scene, tier = 'high') {
     this.scene = scene;
-    this.particleCount = 600;
-    this.sparkCount = 40;
+    this.tier = tier;
+    this.particleCount = DeviceDetect.getParticleCount(tier);
+    this.sparkCount = DeviceDetect.getSparkCount(tier);
+    this.useCpuMutation = tier === 'high';
+
+    if (this.particleCount === 0 && this.sparkCount === 0) return;
 
     this._createDustParticles();
     this._createSparks();
   }
 
   _createDustParticles() {
+    if (this.particleCount === 0) return;
+
     const positions = new Float32Array(this.particleCount * 3);
     const sizes = new Float32Array(this.particleCount);
     const opacities = new Float32Array(this.particleCount);
@@ -43,28 +50,21 @@ export class Particles {
 
         void main() {
           vec3 pos = position;
-
-          // Extremely slow floating movement
           pos.y += sin(uTime * aSpeed * 0.15 + position.x * 0.5) * 1.5;
           pos.x += cos(uTime * aSpeed * 0.1 + position.y * 0.3) * 0.8;
           pos.z += sin(uTime * aSpeed * 0.05) * 0.5;
-
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
           gl_Position = projectionMatrix * mvPosition;
           gl_PointSize = aSize * uPixelRatio * (300.0 / -mvPosition.z);
-
           vOpacity = aOpacity;
         }
       `,
       fragmentShader: `
         varying float vOpacity;
-
         void main() {
           float dist = length(gl_PointCoord - vec2(0.5));
           if (dist > 0.5) discard;
-
           float alpha = smoothstep(0.5, 0.1, dist) * vOpacity;
-          // Steel gray with very subtle warm tint
           vec3 color = vec3(0.25, 0.23, 0.22);
           gl_FragColor = vec4(color, alpha);
         }
@@ -83,6 +83,8 @@ export class Particles {
   }
 
   _createSparks() {
+    if (this.sparkCount === 0) return;
+
     const positions = new Float32Array(this.sparkCount * 3);
     const sizes = new Float32Array(this.sparkCount);
     const lifetimes = new Float32Array(this.sparkCount);
@@ -115,17 +117,10 @@ export class Particles {
 
         void main() {
           vec3 pos = position;
-
-          // Cycle through life
           float life = mod(uTime + aPhase, aLifetime) / aLifetime;
-
-          // Fade in and out
           vAlpha = sin(life * 3.14159) * 0.6;
-
-          // Slight upward drift
           pos.y += life * 3.0;
           pos.x += sin(uTime * 0.5 + aPhase) * 0.5;
-
           vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
           gl_Position = projectionMatrix * mvPosition;
           gl_PointSize = aSize * uPixelRatio * (200.0 / -mvPosition.z);
@@ -133,13 +128,10 @@ export class Particles {
       `,
       fragmentShader: `
         varying float vAlpha;
-
         void main() {
           float dist = length(gl_PointCoord - vec2(0.5));
           if (dist > 0.5) discard;
-
           float glow = smoothstep(0.5, 0.0, dist);
-          // Warm orange-red spark color
           vec3 color = mix(vec3(1.0, 0.3, 0.0), vec3(1.0, 0.6, 0.2), glow);
           gl_FragColor = vec4(color, glow * vAlpha);
         }
@@ -158,20 +150,23 @@ export class Particles {
   }
 
   update(elapsed, delta, mouse) {
-    // Update dust
-    this.dustMesh.material.uniforms.uTime.value = elapsed;
-
-    // Update sparks
-    this.sparkMesh.material.uniforms.uTime.value = elapsed;
-
-    // Very subtle reaction to mouse — particles drift away slightly
-    const dustPositions = this.dustMesh.geometry.attributes.position.array;
-    for (let i = 0; i < this.particleCount; i++) {
-      const dx = mouse.x * 0.5;
-      const dy = mouse.y * 0.3;
-      dustPositions[i * 3] += dx * 0.001;
-      dustPositions[i * 3 + 1] += dy * 0.001;
+    if (this.dustMesh) {
+      this.dustMesh.material.uniforms.uTime.value = elapsed;
     }
-    this.dustMesh.geometry.attributes.position.needsUpdate = true;
+
+    if (this.sparkMesh) {
+      this.sparkMesh.material.uniforms.uTime.value = elapsed;
+    }
+
+    if (this.useCpuMutation && this.dustMesh) {
+      const dustPositions = this.dustMesh.geometry.attributes.position.array;
+      for (let i = 0; i < this.particleCount; i++) {
+        const dx = mouse.x * 0.5;
+        const dy = mouse.y * 0.3;
+        dustPositions[i * 3] += dx * 0.001;
+        dustPositions[i * 3 + 1] += dy * 0.001;
+      }
+      this.dustMesh.geometry.attributes.position.needsUpdate = true;
+    }
   }
 }

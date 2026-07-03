@@ -2,13 +2,15 @@ import { Scene } from './three/Scene.js';
 import { Fog } from './three/Fog.js';
 import { Particles } from './three/Particles.js';
 import { Beacon } from './three/Beacon.js';
+import { DeviceDetect } from './utils/DeviceDetect.js';
 
 export class ManifiestoBg {
   constructor() {
-    this.scene = new Scene();
-    this.beacon = new Beacon(this.scene.scene);
-    this.fog = new Fog(this.scene.scene);
-    this.particles = new Particles(this.scene.scene);
+    this.tier = DeviceDetect.getPerformanceTier();
+    this.scene = new Scene(this.tier);
+    this.beacon = new Beacon(this.scene.scene, this.tier);
+    this.fog = new Fog(this.scene.scene, this.tier);
+    this.particles = new Particles(this.scene.scene, this.tier);
 
     this.scene.start();
 
