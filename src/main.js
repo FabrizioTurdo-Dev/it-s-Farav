@@ -57,6 +57,7 @@ class FARAV {
       this.textEffects = new TextEffects();
       this.cardEffects = new CardEffects();
       this._initWhatsApp();
+      this._initHamburger();
 
     } catch (error) {
       console.error('FARAV initialization error:', error);
@@ -97,6 +98,24 @@ class FARAV {
         whatsappBtn.style.pointerEvents = 'none';
         visible = false;
       }
+    });
+  }
+
+  _initHamburger() {
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('mobile-menu');
+    if (!hamburger || !menu) return;
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      menu.classList.toggle('open');
+    });
+
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        menu.classList.remove('open');
+      });
     });
   }
 }
