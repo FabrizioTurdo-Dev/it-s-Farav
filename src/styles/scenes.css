@@ -61,6 +61,7 @@
   text-shadow: 0 0 80px rgba(209, 0, 0, 1.5);
   will-change: transform, opacity;
   user-select: none;
+    margin-top: 2%;
 }
 
 .hero-tagline {
@@ -403,6 +404,15 @@
 
   .hero-logo {
     font-size: clamp(3.5rem, 18vw, 8rem);
+    margin-top: 2%;
+  }
+
+  .hero-ui-top {
+    font-size: 8px;
+  }
+
+  .hero-center {
+    padding-top: 4rem;
   }
 
   .contact-title {
