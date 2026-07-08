@@ -145,8 +145,9 @@
 
 /* ---- TRACKS ---- */
 .scene-tracks {
-  min-height: 100vh;
-  padding: 10vh 0;
+  min-height: auto;
+  padding: 6vh 0;
+  align-items: flex-start;
 }
 
 .tracks-header {
