@@ -22,6 +22,8 @@ export const GALLERY_ASSETS = [
   { id: 'farav-05', type: 'image' },
   { id: 'farav-06', type: 'image' },
   { id: 'farav-08', type: 'image' },
+  { id: 'farav-09', type: 'image' },
+
   // { id: 'farav_z5azr1', type: 'video' },
 
 
