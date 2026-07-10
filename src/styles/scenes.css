@@ -428,6 +428,10 @@
 }
 
 @media (max-width: 600px) {
+  .scene-hero {
+    min-height: 100dvh;
+  }
+
   .hamburger {
     display: flex;
   }
@@ -471,7 +475,7 @@
   }
 
   .hero-logo {
-    font-size: clamp(3.5rem, 18vw, 8rem);
+    font-size: clamp(4.5rem, 22vw, 10rem);
     margin-top: 2%;
   }
 
@@ -480,7 +484,12 @@
   }
 
   .hero-center {
-    padding-top: 4rem;
+    padding-top: 0;
+    gap: 2rem;
+  }
+
+  .scroll-indicator {
+    margin: 2.5rem 0 1.5rem;
   }
 
   .contact-title {
